@@ -1,0 +1,17 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource prefix="/icons">
+    <file>icons/undo.svg</file>
+    <file>icons/redo.svg</file>
+
+    <file>icons/pen.svg</file>
+    <file>icons/eraser.svg</file>
+    <file>icons/color_pen.svg</file>
+    <file>icons/line.svg</file>
+    <file>icons/circle.svg</file>
+    <file>icons/fill.svg</file>
+    <file>icons/rect.svg</file>
+    <file>icons/triangle.svg</file>
+    <file>icons/polygon.svg</file>
+    <file>icons/text.svg</file>
+  </qresource>
+</RCC>

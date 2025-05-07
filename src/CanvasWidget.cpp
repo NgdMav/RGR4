@@ -73,6 +73,11 @@ void CanvasWidget::paintEvent(QPaintEvent *event)
 
     painter.save();
     painter.scale(m_scaleFactor, m_scaleFactor);
+
+    if (!m_backgroundImage.isNull()) {
+        painter.drawPixmap(0, 0, m_backgroundImage.scaled(size() / m_scaleFactor));
+    }
+
     for (const auto &shape : m_shapes) {
         shape->draw(painter);
         
@@ -340,6 +345,23 @@ bool CanvasWidget::saveToFile(const QString &fileName) {
     return true;
 }
 
+bool CanvasWidget::exportAsImage(const QString& filePath) {
+    QImage image(m_originalSize, QImage::Format_ARGB32);
+    image.fill(Qt::white);
+
+    QPainter painter(&image);
+    painter.scale(m_scaleFactor, m_scaleFactor);
+    if (!m_backgroundImage.isNull()) {
+        painter.drawPixmap(0, 0, m_backgroundImage.scaled(m_originalSize));
+    }
+    for (const auto &shape : m_shapes) {
+        shape->draw(painter);
+    }
+    painter.end();
+
+    return image.save(filePath);
+}
+
 
 bool CanvasWidget::loadFromFile(const QString &fileName) {
     QFile file(fileName);
@@ -376,6 +398,15 @@ bool CanvasWidget::loadFromFile(const QString &fileName) {
 
     updateModification(false);
     emit shapeListChanged();
+    update();
+    return true;
+}
+
+bool CanvasWidget::loadBackgroundImage(const QString& filePath) {
+    QPixmap img;
+    if (!img.load(filePath)) return false;
+
+    m_backgroundImage = img;
     update();
     return true;
 }

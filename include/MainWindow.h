@@ -23,6 +23,8 @@ private slots:
     void open();
     bool save();
     bool saveAs();
+    void exportAsImage();
+    void importBackground();
     void about();
     void updateShapeList();
 
@@ -49,6 +51,8 @@ private:
     QAction *m_openAct;
     QAction *m_saveAct;
     QAction *m_saveAsAct;
+    QAction *m_exportImageAct;
+    QAction *m_importBackgroundAct;
     QAction *m_exitAct;
     QAction *m_undoAct;
     QAction *m_redoAct;

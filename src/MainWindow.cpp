@@ -257,6 +257,31 @@ bool MainWindow::saveAs()
     return saveFile(fileName);
 }
 
+void MainWindow::exportAsImage() {
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Export Image"), "", tr("PNG Image (*.png);;JPEG Image (*.jpg)"));
+    if (!fileName.isEmpty()) {
+        if (m_canvas->exportAsImage(fileName)) {
+            statusBar()->showMessage(tr("Image exported successfully"), 2000);
+        } else {
+            statusBar()->showMessage(tr("Failed to export image"), 2000);
+        }
+    }
+}
+
+void MainWindow::importBackground() {
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Background Image"), "", tr("Image Files (*.png *.jpg *.jpeg *.bmp)"));
+    if (!fileName.isEmpty()) {
+        if (m_canvas->loadBackgroundImage(fileName)) {
+            statusBar()->showMessage(tr("Background image loaded"), 2000);
+        } else {
+            statusBar()->showMessage(tr("Failed to load background image"), 2000);
+        }
+    }
+}
+
+
 void MainWindow::about()
 {
     QMessageBox::about(this, tr("About Inkscape-like Editor"),
@@ -288,6 +313,12 @@ void MainWindow::createActions()
     m_saveAsAct->setShortcut(QKeySequence::SaveAs);
     connect(m_saveAsAct, &QAction::triggered, this, &MainWindow::saveAs);
 
+    m_exportImageAct = new QAction(tr("Export as Image"), this);
+    connect(m_exportImageAct, &QAction::triggered, this, &MainWindow::exportAsImage);
+
+    m_importBackgroundAct = new QAction(tr("Import Background"), this);
+    connect(m_importBackgroundAct, &QAction::triggered, this, &MainWindow::importBackground);
+
     m_exitAct = new QAction(tr("E&xit"), this);
     m_exitAct->setShortcut(QKeySequence::Quit);
     connect(m_exitAct, &QAction::triggered, this, &QWidget::close);
@@ -318,6 +349,8 @@ void MainWindow::createMenus()
     m_fileMenu->addAction(m_openAct);
     m_fileMenu->addAction(m_saveAct);
     m_fileMenu->addAction(m_saveAsAct);
+    m_fileMenu->addAction(m_exportImageAct);
+    m_fileMenu->addAction(m_importBackgroundAct);
     m_fileMenu->addSeparator();
     m_fileMenu->addAction(m_exitAct);
 

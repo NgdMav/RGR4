@@ -9,6 +9,7 @@
 #include <QStack>
 #include <QColor>
 #include <QTimer>
+#include <QPixmap>
 #include <memory>
 #include "Shapes/Shape.h"
 #include "ToolBar.h"
@@ -25,7 +26,9 @@ public:
     void setPenWidth(int32_t width);
     
     bool saveToFile(const QString &fileName);
+    bool exportAsImage(const QString& filePath);
     bool loadFromFile(const QString &fileName);
+    bool loadBackgroundImage(const QString& filePath);
     
     bool isModified() const { return m_modified; }
 
@@ -94,6 +97,8 @@ private:
 
     enum DragMode { NoDrag, MoveDrag, ResizeDrag, RotateDrag };
     DragMode m_dragMode = NoDrag;
+
+    QPixmap m_backgroundImage;
 };
 
 #endif // CANVASWIDGET_H
